@@ -6,9 +6,12 @@ from pydantic_settings import BaseSettings
 dotenv.load_dotenv()
 
 class Settings(BaseSettings):
-    REDIS_HOST = os.environ.get("REDIS_HOST", "0.0.0.0")
-    REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
-    REDIS_NUM_DB = os.environ.get("REDIS_NUM_DB", "0")
-    url_redis = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_NUM_DB}'
+    REDIS_HOST: str = os.environ.get("REDIS_HOST", "0.0.0.0")
+    REDIS_PORT: str = os.environ.get("REDIS_PORT", "6379")
+    REDIS_NUM_DB: str = os.environ.get("REDIS_NUM_DB", "0")
+
+    @property
+    def url_redis(self):
+        return f'redis://{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_NUM_DB}'
 
 settings = Settings()
