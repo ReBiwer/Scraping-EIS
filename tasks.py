@@ -63,14 +63,14 @@ class ParseXMLPage(BaseTask):
     def run(self, html_url: str) -> str:
         xml_url = self.__convert_to_xml(html_url)
         xml_str = self._fetch_page(xml_url, html=False)
-        return self.__parse_xml(xml_str)
+        return self._parse_xml(xml_str)
 
     @staticmethod
     def __convert_to_xml(url: str) -> str:
         return url.replace('/view.html?', '/viewXml.html?')
 
     @staticmethod
-    def __parse_xml(xml_str: str) -> str:
+    def _parse_xml(xml_str: str) -> str:
         xml_page = ElementTree.fromstring(xml_str)
         namespaces = {
             "default": "http://zakupki.gov.ru/oos/EPtypes/1",
