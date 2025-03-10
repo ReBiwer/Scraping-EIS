@@ -19,6 +19,11 @@
 ```bash
 $ docker compose up -d
 ```
+Установите зависимости
+
+```bash
+pip install -r requirements.txt
+```
 
 Если необходимо измнеить настройки подключения к Redis, то скопируйте .env.template, переименуйте его в .env и заполните
 ```python
