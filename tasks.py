@@ -39,14 +39,14 @@ class ParseHTMLPage(BaseTask):
 
     def run(self, url: str) -> list[str]:
         html_str = self._fetch_page(url)
-        html_urls = self.__parse_html(html_str)
+        html_urls = self._parse_html(html_str)
 
         return group(
             (ParseXMLPage().s(url) for url in html_urls),
         ).delay().get(timeout=30)
 
     @staticmethod
-    def __parse_html(html_str: str) -> list[str]:
+    def _parse_html(html_str: str) -> list[str]:
         html_page = BeautifulSoup(html_str, 'lxml')
         domain_url = 'https://zakupki.gov.ru'
         urls = []
@@ -61,12 +61,12 @@ class ParseHTMLPage(BaseTask):
 class ParseXMLPage(BaseTask):
 
     def run(self, html_url: str) -> str:
-        xml_url = self.__convert_to_xml(html_url)
+        xml_url = self._convert_to_xml(html_url)
         xml_str = self._fetch_page(xml_url, html=False)
         return self._parse_xml(xml_str)
 
     @staticmethod
-    def __convert_to_xml(url: str) -> str:
+    def _convert_to_xml(url: str) -> str:
         return url.replace('/view.html?', '/viewXml.html?')
 
     @staticmethod
