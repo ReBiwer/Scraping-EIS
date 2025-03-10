@@ -8,7 +8,7 @@ def main():
     result = RootTask().s(urls).delay()
 
     list_result = result.get(timeout=30)
-    end_result = [item for sublist in list_result for item in sublist]
+    end_result = [item for item in list_result]
     print(end_result)
 
 if __name__ == '__main__':

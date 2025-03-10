@@ -88,17 +88,18 @@ class ParseXMLPage(BaseTask):
 
 class FinallyCompileResult(BaseTask):
 
-    def run(self, results: list[str]):
-        return [item for item in results]
+    def run(self, results: list[list[str]]):
+        return [item for sublist in results for item in sublist]
 
 
 class RootTask(BaseTask):
 
     def run(self, urls: list[str]) -> list[str]:
-        return chord(
+        result = chord(
             (ParseHTMLPage().s(url) for url in urls),
             FinallyCompileResult().s()
         ).delay().get(timeout=30)
+        return [item for item in result]
 
 
 app.register_task(ParseHTMLPage())
